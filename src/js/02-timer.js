@@ -5,6 +5,7 @@ import 'flatpickr/dist/flatpickr.min.css';
 
 const date = document.querySelector('#datetime-picker');
 const startBtn = document.querySelector('[data-start]');
+const timers = document.querySelector('.timer');
 let timeId;
 
 startBtn.disabled = true;
@@ -39,16 +40,16 @@ function timeUpdate() {
     const remainingTime = targetTime - currentTime;
     const timeLeft = convertMs(remainingTime);
 
-    document.querySelector('[data-days]').textContent = timeLeft.days;
-    document.querySelector('[data-hours]').textContent = timeLeft.hours;
-    document.querySelector('[data-minutes]').textContent = timeLeft.minutes;
-    document.querySelector('[data-seconds]').textContent = timeLeft.seconds;
-
     if (remainingTime < 0) {
       clearInterval(timeId);
 
       return;
     }
+
+    document.querySelector('[data-days]').textContent = timeLeft.days;
+    document.querySelector('[data-hours]').textContent = timeLeft.hours;
+    document.querySelector('[data-minutes]').textContent = timeLeft.minutes;
+    document.querySelector('[data-seconds]').textContent = timeLeft.seconds;
   }, 1000);
 }
 
