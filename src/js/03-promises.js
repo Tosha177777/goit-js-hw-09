@@ -25,7 +25,7 @@ function onSubmit(e) {
       });
     delay += step;
   }
-  form.reset();
+  e.target.reset();
 }
 
 function createPromise(position, delay) {

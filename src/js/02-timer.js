@@ -8,6 +8,11 @@ const startBtn = document.querySelector('[data-start]');
 const timers = document.querySelector('.timer');
 let timeId;
 
+const days = document.querySelector('[data-days]');
+const hours = document.querySelector('[data-hours]');
+const minutes = document.querySelector('[data-minutes]');
+const seconds = document.querySelector('[data-seconds]');
+
 startBtn.disabled = true;
 
 const options = {
@@ -15,11 +20,11 @@ const options = {
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
-  onClose(selectedDates) {
-    const selectedDate = selectedDates[0];
-    console.log(selectedDates[0]);
-    if (selectedDate <= new Date()) {
+  onClose([selectedDates]) {
+    if (selectedDates <= Date.now()) {
       window.alert('Please choose a date in the future');
+
+      startBtn.disabled = true;
     } else {
       startBtn.disabled = false;
     }
@@ -36,7 +41,7 @@ function timeUpdate() {
   const targetTime = selectedDate.getTime();
 
   timeId = setInterval(() => {
-    const currentTime = new Date().getTime();
+    const currentTime = Date.now();
     const remainingTime = targetTime - currentTime;
     const timeLeft = convertMs(remainingTime);
 
@@ -45,11 +50,11 @@ function timeUpdate() {
 
       return;
     }
-
-    document.querySelector('[data-days]').textContent = timeLeft.days;
-    document.querySelector('[data-hours]').textContent = timeLeft.hours;
-    document.querySelector('[data-minutes]').textContent = timeLeft.minutes;
-    document.querySelector('[data-seconds]').textContent = timeLeft.seconds;
+    timeTextContent(timeLeft);
+    // days.textContent = timeLeft.days;
+    // hours.textContent = timeLeft.hours;
+    // minutes.textContent = timeLeft.minutes;
+    // seconds.textContent = timeLeft.seconds;
   }, 1000);
 }
 
@@ -70,4 +75,11 @@ function convertMs(ms) {
   const seconds = Math.floor((((ms % day) % hour) % minute) / second);
 
   return { days, hours, minutes, seconds };
+}
+
+function timeTextContent(timeLeft) {
+  days.textContent = timeLeft.days;
+  hours.textContent = timeLeft.hours;
+  minutes.textContent = timeLeft.minutes;
+  seconds.textContent = timeLeft.seconds;
 }
